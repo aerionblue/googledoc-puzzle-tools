@@ -186,6 +186,18 @@ function ANSWERIZE(input, spacesOnly) {
 }
 
 /**
+ * The letters in the given string, uppercased and sorted.
+ *
+ * @param {string|Array<string>} input The string or range of cells to be alphagrammed.
+ * @return The English letters in the input, arranged in alphabetical order and capitalized.
+ * @customfunction
+ */
+function ALPHAGRAM(input) {
+  let charArray = [...ANSWERIZE(input)];
+  return charArray.sort().join('');
+}
+
+/**
  * Converts a binary string into a decimal number.
  *
  * @param {string} binaryString binary sequence to convert
