@@ -177,6 +177,8 @@ function ANSWERIZE(input, spacesOnly) {
   if (input == null) {
     return null;
   }
+  // Strip diacritical marks (NFD = Canonical Decomposition)
+  input = input.normalize('NFD');
   if (spacesOnly) {
     return input.toUpperCase().replace(/[\s]/g,"");
   }
