@@ -143,26 +143,22 @@ function INDEX_IN_ALPHABET(index) {
 }
 
 /**
- * Gives the nth character from a string.
- *
- * In some ways, this is a shorthand for the MID(n,1) command, but
- * this documents its purpose better and uses our per-word
- * mechanism, so that INDEX_IN_STRING(string, "11 5") will return
- * the 11th letter and the fifth one.
+ * Indexes the Nth character from an ANSWERIZE'd string.
  *
  * @param {string} string the string to index into
- * @param {string} index the 1-indexed index or indices to use for parsing the string.
+ * @param {number|string} index the 1-indexed index, or a space-delimited list of indices
  *
  * @customfunction
  */
-function INDEX_IN_STRING(string, index) {
+function IDX(string, index) {
   if (string == null) {
     return null;
   }
   // note that substring is 0 based, while the user will be using human numbers
+  let answer = _doAnswerize(string);
   return _forEachWord(index, function(word) {
       var curIndex = parseInt(word);
-      return string.substring(curIndex - 1, curIndex);});
+      return answer.substring(curIndex - 1, curIndex);});
 }
 
 /**
@@ -177,6 +173,10 @@ function ANSWERIZE(input, spacesOnly) {
   if (input == null) {
     return null;
   }
+  return _doAnswerize(input, spacesOnly);
+}
+
+function _doAnswerize(input, spacesOnly) {
   // Strip diacritical marks (NFD = Canonical Decomposition)
   input = input.normalize('NFD');
   if (spacesOnly) {
