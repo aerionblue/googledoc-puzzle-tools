@@ -162,6 +162,33 @@ function IDX(string, index) {
 }
 
 /**
+ * Indexes letters down the main diagonal of a list of words. Each word in the range is ANSWERIZE'd first.
+ *
+ * @param {Array<Array<string>>} range A one-dimensional range of cells.
+ * @return The result of reading down the main diagonal.
+ * @customfunction
+ */
+function DIAGONALIZE(range) {
+  let words;
+  if (!Array.isArray(range)) {
+    // Treat the input as a 1x1 range, even though it's pointless to diagonalize this.
+    words = [range];
+  } else if (range.length > 1) {
+    if (range[0].length > 1) {
+      throw `Input range must be 1-dimensional, but was ${range.length}x${range[0].length}`;
+    }
+    words = range.map(row => row[0]);
+  } else {
+    words = range[0];
+  }
+
+  return words
+      .map(_doAnswerize)
+      .map((str, idx) => str.substring(idx, idx+1))
+      .join('');
+}
+
+/**
  * Uppercases a string and removes anything non-alphanumeric (except underscores).
  *
  * @param {string} input string to answerize
