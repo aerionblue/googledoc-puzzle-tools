@@ -27,9 +27,6 @@ function _updateMenus() {
               .addItem('Rotationally', 'doRotationalSymmetrification')
               .addItem('Bilaterally', 'doBilateralSymmetrification'))
   .addItem('Quick-Add Named Tabs', 'doAddNamedTabs')
-  .addSeparator()
-  .addItem('Wordsmith Anagram Solver', 'doOpenWordsmithAnagrammer')
-  .addItem('Nutrimatic Solver', 'doOpenNutrimatic')
   .addToUi();
 }
 
@@ -142,26 +139,6 @@ function doSetupSimpleSubstitutionKey() {
   var startColumn = range.getColumn();
   for (var curRow = startRow; curRow <= startRow + 26; curRow++) {
   }
-}
-
-/**
- * Creates the sidebar necessary for querying wordsmith.org/anagram
- */
-function doOpenWordsmithAnagrammer() {
-  var template = HtmlService.createTemplateFromFile('web_query_form')
-  template.source = WORDSMITH_SEARCH;
-  var html = template.evaluate().setTitle('Wordsmith Anagrammer');
-  _getSpreadsheetUI().showSidebar(html);
-}
-
-/**
- * Creates the sidebar necessary for querying wordsmith.org/anagram
- */
-function doOpenNutrimatic() {
-  var template = HtmlService.createTemplateFromFile('web_query_form')
-  template.source = NUTRIMATIC_SEARCH;
-  var html = template.evaluate().setTitle('Nutrimatic');
-  _getSpreadsheetUI().showSidebar(html);
 }
 
 function include(filename) {
