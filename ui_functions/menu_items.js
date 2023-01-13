@@ -1,5 +1,9 @@
 /** @OnlyCurrentDoc */
 
+// Colors from the standard Sheets color picker.
+const BLACK = "#000000";
+const DARK_GRAY_1 = "#b7b7b7";
+
 function onInstall(e) {
   onOpen(e);
 }
@@ -27,6 +31,8 @@ function _updateMenus() {
               .addItem('Rotationally', 'doRotationalSymmetrification')
               .addItem('Bilaterally', 'doBilateralSymmetrification'))
   .addItem('Quick-Add Named Tabs', 'doAddNamedTabs')
+  .addSubMenu(_getSpreadsheetUI().createMenu('Formatting Shortcuts')
+              .addItem('Crossword grid', 'doCrosswordFormatting'))
   .addToUi();
 }
 
@@ -100,6 +106,63 @@ function _doSymmetrification(maxRow, maxColumn, callback) {
       }
     }
   }
+}
+
+/**
+ * Set conditional formatting rules commonly used for crossword grids.
+ */
+function doCrosswordFormatting() {
+  let sheet = SpreadsheetApp.getActiveSheet();
+  let range = _getActiveRange();
+  // If just a single cell is selected, ask the user how many columns they
+  // want, and then select that many whole columns.
+  if (range.getWidth() == 1 && range.getHeight() == 1) {
+    let numColumns = _getGridWidthFromUser();
+    range = sheet.getRange(1, range.getColumn(), sheet.getMaxRows(), numColumns);
+  }
+  range.setHorizontalAlignment("center");
+  _addConditionalFormatRules(
+      // An easy way to insert a block.
+      SpreadsheetApp.newConditionalFormatRule()
+          .setRanges([range])
+          .whenTextEqualTo("/")
+          .setBackground(BLACK)
+          .build(),
+      // Make it easier to distinguish clue numbers from letters.
+      SpreadsheetApp.newConditionalFormatRule()
+          .setRanges([range])
+          .whenNumberGreaterThan(0)
+          .setFontColor(DARK_GRAY_1)
+          .build(),
+  );
+  // Make cells square
+  let height = sheet.getRowHeight(range.getRow());
+  sheet.setColumnWidths(range.getColumn(), range.getNumColumns(), height);
+}
+
+/**
+ * @param {!Array<ConditionalFormatRule>} newRules The rules to add.
+ */
+function _addConditionalFormatRules(...newRules) {
+  let sheet = SpreadsheetApp.getActiveSheet();
+  let rules = sheet.getConditionalFormatRules();
+  rules.push(...newRules);
+  sheet.setConditionalFormatRules(rules);
+}
+
+/**
+ * Gets a cell size from the user
+ * @return {Integer} the size the user requested
+ */
+function _getGridWidthFromUser() {
+  let ui = _getSpreadsheetUI();
+  let dialogResult = ui.prompt(
+    "How many columns?",
+    "Enter a number of columns. Consider leaving a couple columns of buffer room (i.e., for a 15x15 puzzle, make 17 columns)",
+    ui.ButtonSet.OK_CANCEL);
+  return _shouldContinueFromDialog(dialogResult) ?
+      parseInt(dialogResult.getResponseText()) :
+      0;
 }
 
 /**
