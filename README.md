@@ -1,18 +1,7 @@
 # googledoc-puzzle-tools
-Tools for easier group solving of Shinteki/Puzzle Hunt-type puzzles via Googledocs.
+Scripts and functions for puzzle hunt (two words) puzzles.
 
-***This is now available as a [Google Sheets Add-On](https://workspace.google.com/marketplace/app/puzzle_tools/790446284580)!***
-
-# Useful existing functions
-(REFS [Google's docs](https://support.google.com/docs/table/25273?hl=en))
-
-| What the Function Does | Syntax |
-| -----------------------|--------|
-| Pull the [right/left] most N characters of a cell, including spaces | =RIGHT(CELL,N) / =LEFT(CELL,N) |
-| Pull the middle N characters of a cell, starting with letter M | =MID(CELL, M, N) |
-| Find the first instance of string STR in cell | =FIND("STR",CELL) |
-| Remove spaces | =REGEXREPLACE(CELL," ","") |
-| Convert numeral to letter | =CHAR(CELL+64) |
+If you're on my team, this extension is installed by default on our Google Workspace domain, but you have to manually enable it on each sheet where you want to use it. Just click `Extensions > Puzzle Tools > Enable for this sheet`.
 
 # Features
 
@@ -20,8 +9,10 @@ Tools for easier group solving of Shinteki/Puzzle Hunt-type puzzles via Googledo
 *  *Square Cells* - Make all selected cells squares of some size. 20 is good for letters.
 *  *Symmetrify Grid* - Make the selected cells have symmetry with regard to background color.
     Rotational (standard crossword) and bilateral are both supported.
-*  *Wordsmith Anagram Solver* - Open a sidebar that will allow querying wordsmith.org/anagram
-*  *Nutrimatic Solver* - Open a sidebar that will allow querying nutrimatic.org
+*  *Formatting Shortcuts* - Apply some commonly-used formatting (and conditional formatting) to cells.
+    * *Crossword grid* - Prepare a range of columns to hold a crossword grid.
+       Most notably, sets the conditional formatting so that a cell whose
+       value is "/" will become a black square.
 
 ## Added functions
 
@@ -33,25 +24,9 @@ sheet_functions/general.js | BINARY_TO_NUMBER  | BINARY_TO_NUMBER(string)       
 sheet_functions/general.js | TERNARY_TO_NUMBER | TERNARY_TO_NUMBER(string)         | Converts a ternary string into a decimal number.
 sheet_functions/general.js | FROM_MORSE        | FROM_MORSE(string, [dot], [dash]) | Converts a string of Morse to plaintext. Supports optional dot and dash characters.
 sheet_functions/general.js | TO_MORSE          | TO_MORSE(string, [delimiter])     | Converts a plaintext string to Morse.  Separates characters in output with optional delimiter.
-sheet_functions/general.js | INDEX_IN_STRING   | INDEX_IN_STRING(string, index)    | Index into a string (shorthand for MID(string, index, 1))
 sheet_functions/general.js | SPLIT_INTO_CELLS  | SPLIT_INTO_CELLS(string)          | Put each character of the input into its own cell to the right.
 sheet_functions/general.js | ANSWERIZE         | ANSWERIZE(string, [spacesOnly])   | Strip non-alpha characters and uppercase the input.  Optionally strip spaces only.
+sheet_functions/general.js | IDX               | IDX(string, indexOrList)          | Index the Nth letter of the given string. You usually want to `ANSWERIZE` the string first. `indexOrList` can be a space-delimited list of numbers, if you want to index multiple letters at once.
+sheet_functions/general.js | ALPHAGRAM         | ALPHAGRAM(string, [results])      | Alphabetizes the letters of a string. You can use this, e.g., to check whether two strings are anagrams of each other (they will have equal alphagrams).
 sheet_functions/general.js | ANAGRAM           | ANAGRAM(string, [results])        | Look up anagrams and return n results (default is 10)
 sheet_functions/general.js | NUTRIMATIC        | NUTRIMATIC(string, [results])     | Look up nutrimatic results for a query and return n results (default is 10)
-
-# Using custom functions in Google Sheets
-
-1.  Tools -> Script Editor
-2.  Paste in code
-3.  Save
-4.  Use as normal
-5.  Note that you can divide your scripts into different files.
-
-# Reference Materials
-- [Guide to extending Sheets](https://developers.google.com/apps-script/guides/sheets)
-- [Validation tests (request access if you want it)](https://docs.google.com/spreadsheets/d/1WAYFVWmO9o5UXqDmf8i20E-936ubKsXBM-S3XOXdX8s/edit#gid=0)
-
-# TODO
-- .puz parser?
-- Dictionary scanning--can we call out to a network from Googledoc Javascript?
-- gridify (break out cells so each letter is in its own box)
