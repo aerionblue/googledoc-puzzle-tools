@@ -33,6 +33,7 @@ function _updateMenus() {
   .addItem('Quick-Add Named Tabs', 'doAddNamedTabs')
   .addSubMenu(_getSpreadsheetUI().createMenu('Formatting Shortcuts')
               .addItem('Crossword grid', 'doCrosswordFormatting'))
+  .addItem('Delete Blank Rows In Selection', 'deleteBlankRows')
   .addToUi();
 }
 
@@ -148,6 +149,22 @@ function _addConditionalFormatRules(...newRules) {
   let rules = sheet.getConditionalFormatRules();
   rules.push(...newRules);
   sheet.setConditionalFormatRules(rules);
+}
+
+function deleteBlankRows() {
+  let range = SpreadsheetApp.getActiveRange();
+
+  if (range.getNumRows() < 2) {
+    throw new Error("Please select more than 1 row");
+  }
+
+  // Delete from the bottom up, because deleting a row causes the cells below it to shift up.
+  for (let rowN = range.getNumRows() - 1; rowN >= 0; rowN--) {
+    let rowRange = range.offset(rowN, 0, 1);
+    if (rowRange.isBlank()) {
+      rowRange.deleteCells(SpreadsheetApp.Dimension.ROWS);
+    }
+  }
 }
 
 /**
