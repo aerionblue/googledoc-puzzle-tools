@@ -16,17 +16,4 @@ If you're on my team, this extension is installed by default on our Google Works
 
 ## Added functions
 
-Function File              | Function Name     | Usage                             | Purpose
--------------------------- | ----------------- | ---------------------------       | --------------------------------------------------
-sheet_functions/caesar.js  | CAESAR_SHIFT      | CAESAR_SHIFT(string, shift)       | Shift every letter in a string by a certain amount
-sheet_functions/general.js | INDEX_IN_ALPHABET | INDEX_IN_ALPHABET(index)          | Return the nth letter in the alphabet from an index.
-sheet_functions/general.js | BINARY_TO_NUMBER  | BINARY_TO_NUMBER(string)          | Converts a binary string into a decimal number.
-sheet_functions/general.js | TERNARY_TO_NUMBER | TERNARY_TO_NUMBER(string)         | Converts a ternary string into a decimal number.
-sheet_functions/general.js | FROM_MORSE        | FROM_MORSE(string, [dot], [dash]) | Converts a string of Morse to plaintext. Supports optional dot and dash characters.
-sheet_functions/general.js | TO_MORSE          | TO_MORSE(string, [delimiter])     | Converts a plaintext string to Morse.  Separates characters in output with optional delimiter.
-sheet_functions/general.js | SPLIT_INTO_CELLS  | SPLIT_INTO_CELLS(string)          | Put each character of the input into its own cell to the right.
-sheet_functions/general.js | ANSWERIZE         | ANSWERIZE(string, [spacesOnly])   | Strip non-alpha characters and uppercase the input.  Optionally strip spaces only.
-sheet_functions/general.js | IDX               | IDX(string, indexOrList)          | Index the Nth letter of the given string. You usually want to `ANSWERIZE` the string first. `indexOrList` can be a space-delimited list of numbers, if you want to index multiple letters at once.
-sheet_functions/general.js | ALPHAGRAM         | ALPHAGRAM(string, [results])      | Alphabetizes the letters of a string. You can use this, e.g., to check whether two strings are anagrams of each other (they will have equal alphagrams).
-sheet_functions/general.js | ANAGRAM           | ANAGRAM(string, [results])        | Look up anagrams and return n results (default is 10)
-sheet_functions/general.js | NUTRIMATIC        | NUTRIMATIC(string, [results])     | Look up nutrimatic results for a query and return n results (default is 10)
+These have all been removed and superseded by named functions, many imported from the community [Google Sheets Puzzle Tricks spreadsheet](https://docs.google.com/spreadsheets/d/1mTVD0KtjbU6-wp1mvYU_abrjdCmnP9focRa1qp36rrY/edit).
